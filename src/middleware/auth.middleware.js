@@ -10,10 +10,9 @@ const protectRoute = async (req, res, next) => {
     }
 
     // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+const decoded = jwt.verify(token, process.env.JWT_SECRET);
+const user = await User.findById(decoded.userId); // ✅ Correct key is userId
 
-    // FIX: use userId from decoded token
-    const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
